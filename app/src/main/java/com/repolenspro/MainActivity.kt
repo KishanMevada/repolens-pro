@@ -10,7 +10,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.tooling.preview.Preview
+import com.repolenspro.ui.search.SearchScreen
 import com.repolenspro.ui.theme.RepoLensProTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,10 +22,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             RepoLensProTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
+                   /* Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    )*/
+                    SearchScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
