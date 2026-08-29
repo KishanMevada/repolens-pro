@@ -32,7 +32,7 @@ import androidx.compose.runtime.getValue
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    onNavigationToDetail: () -> Unit = {},
+    onNavigationToDetail: (String) -> Unit = {},
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -83,7 +83,10 @@ fun SearchScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(items = uiState.repositories) { repo ->
-                    RepositoryItem(repository = repo, onClick = {})
+                    RepositoryItem(
+                        repository = repo,
+                        onClick = { onNavigationToDetail(repo.name) }
+                    )
                 }
             }
 

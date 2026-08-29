@@ -11,19 +11,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepositoryDetailScreen(
+    repoName: String,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {}
 ) {
@@ -32,8 +37,8 @@ fun RepositoryDetailScreen(
             TopAppBar(
                 title = { Text(text = "Repository details") },
                 navigationIcon = {
-                    TextButton(onClick = onBackClick) {
-                        Text(text = "Back")
+                    IconButton(onClick = onBackClick) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -51,12 +56,12 @@ fun RepositoryDetailScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = "kotlin",
+                    text = "You clicked on:",
                     style = MaterialTheme.typography.headlineMedium
                 )
 
                 Text(
-                    text = "JetBrains / kotlin",
+                    text = repoName,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
