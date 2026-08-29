@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
+    onNavigationToDetail: () -> Unit = {}
 ) {
     var query by rememberSaveable { mutableStateOf("") }
 
@@ -49,7 +50,7 @@ fun SearchScreen(
             )
 
             Button(
-                onClick = { },
+                onClick = onNavigationToDetail,
                 modifier = Modifier.fillMaxWidth(),
                 enabled = query.isNotBlank()
             ) {
