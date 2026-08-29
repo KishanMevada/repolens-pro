@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.repolenspro.ui.search.SearchScreen
+import com.repolenspro.ui.detail.RepositoryDetailScreen
 import com.repolenspro.ui.theme.RepoLensProTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RepoLensProTheme {
-                SearchScreen()
+                RepositoryDetailScreen()
             }
         }
     }
