@@ -1,0 +1,27 @@
+package com.repolenspro.ui.theme
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.repolenspro.data.datastore.ThemePreferences
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class ThemeViewModel @Inject constructor(
+    private val themePreferences: ThemePreferences
+) : ViewModel() {
+    val isDarkMode = themePreferences.isDarkMode.stateIn(
+        viewModelScope,
+        SharingStarted.Eagerly,
+        false
+    )
+
+    fun toggleTheme(isDark: Boolean) {
+        viewModelScope.launch {
+            themePreferences.toggleTheme(isDark)
+        }
+    }
+}

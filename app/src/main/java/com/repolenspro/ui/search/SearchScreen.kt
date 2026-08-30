@@ -20,6 +20,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CardDefaults
@@ -47,11 +49,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.repolenspro.domain.model.Repository
+import com.repolenspro.ui.theme.ThemeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
+    themeViewModel: ThemeViewModel,
     onNavigateToDetail: (String) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
@@ -73,9 +77,20 @@ fun SearchScreen(
             TopAppBar(
                 title = { Text("RepoLens Pro") },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                actions = {
+                    val isDark by themeViewModel.isDarkMode.collectAsState()
+                    IconButton(onClick = { themeViewModel.toggleTheme(!isDark) }) {
+                        Icon(
+                            // લાઈટ/ડાર્ક મોડ મુજબ આઇકન બદલાશે
+                            imageVector = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode,
+                            contentDescription = "Toggle Theme"
+                        )
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -184,9 +199,9 @@ fun RepositoryItem(repository: Repository, onClick: () -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = 4.dp, vertical = 2.dp)
             .clickable { onClick() },
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 3.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
         shape = MaterialTheme.shapes.medium
     ) {
@@ -194,7 +209,7 @@ fun RepositoryItem(repository: Repository, onClick: () -> Unit) {
             Text(
                 text = repository.fullName,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(6.dp))
