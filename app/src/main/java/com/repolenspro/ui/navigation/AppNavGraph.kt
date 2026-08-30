@@ -31,9 +31,10 @@ fun AppNavGraph() {
         ) { backStackEntry ->
 
             val repoName = backStackEntry.arguments?.getString("repoName") ?: "Unknown"
+            val decodedRepoName = java.net.URLDecoder.decode(repoName, "UTF-8")
 
             RepositoryDetailScreen(
-                repoName = repoName,
+                repoName = decodedRepoName,
                 onBackClick = {
                     navController.popBackStack()
                 }

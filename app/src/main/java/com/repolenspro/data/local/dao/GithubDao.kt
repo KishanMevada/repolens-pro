@@ -20,7 +20,7 @@ abstract class GithubDao {
     @Query("SELECT * FROM repositories")
     abstract fun searchRepositoriesPaged(): PagingSource<Int, RepositoryEntity>
 
-    @Query("SELECT * FROM repositories WHERE name = :repoName")
+    @Query("SELECT * FROM repositories WHERE fullName = :repoName")
     abstract suspend fun getRepositoryByName(repoName: String): RepositoryEntity?
 
 }
