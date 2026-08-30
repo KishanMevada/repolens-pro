@@ -16,4 +16,7 @@ interface GithubDao {
     @Query("SELECT * FROM repositories WHERE name LIKE '%' || :query || '%' OR fullName LIKE '%' || :query || '%'" )
     suspend fun searchRepositories(query: String): List<RepositoryEntity>
 
+    @Query("SELECT * FROM repositories WHERE name = :repoName LIMIT 1")
+    suspend fun getRepositoryByName(repoName: String): RepositoryEntity?
+
 }
