@@ -1,5 +1,6 @@
 package com.repolenspro.data.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -8,15 +9,18 @@ import com.repolenspro.data.local.RepositoryEntity
 
 @Dao
 @JvmSuppressWildcards
-interface GithubDao {
+abstract class GithubDao {
+
+    @Query("DELETE FROM repositories")
+    abstract suspend fun clearAllRepositories()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRepositories(repositories: List<RepositoryEntity>): List<Long>
+    abstract suspend fun insertRepositories(repositories: List<RepositoryEntity>)
 
-    @Query("SELECT * FROM repositories WHERE name LIKE '%' || :query || '%' OR fullName LIKE '%' || :query || '%'" )
-    suspend fun searchRepositories(query: String): List<RepositoryEntity>
+    @Query("SELECT * FROM repositories")
+    abstract fun searchRepositoriesPaged(): PagingSource<Int, RepositoryEntity>
 
-    @Query("SELECT * FROM repositories WHERE name = :repoName LIMIT 1")
-    suspend fun getRepositoryByName(repoName: String): RepositoryEntity?
+    @Query("SELECT * FROM repositories WHERE fullName = :repoName")
+    abstract suspend fun getRepositoryByName(repoName: String): RepositoryEntity?
 
 }
