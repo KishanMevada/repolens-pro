@@ -8,14 +8,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.repolenspro.ui.detail.RepositoryDetailScreen
 import com.repolenspro.ui.search.SearchScreen
+import com.repolenspro.ui.theme.ThemeViewModel
 
 @Composable
-fun AppNavGraph() {
+fun AppNavGraph(themeViewModel: ThemeViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "search") {
         composable("search") {
             SearchScreen(
+                themeViewModel = themeViewModel,
                 onNavigateToDetail = { repoName ->
                     if (repoName.isNotBlank()) {
                         val encodedName = java.net.URLEncoder.encode(repoName, "UTF-8")
