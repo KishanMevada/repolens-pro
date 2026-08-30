@@ -1,7 +1,6 @@
 package com.repolenspro.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,7 +16,7 @@ fun AppNavGraph() {
     NavHost(navController = navController, startDestination = "search") {
         composable("search") {
             SearchScreen(
-                onNavigationToDetail = { repoName ->
+                onNavigateToDetail = { repoName ->
                     if (repoName.isNotBlank()) {
                         val encodedName = java.net.URLEncoder.encode(repoName, "UTF-8")
                         navController.navigate("detail/$encodedName")
