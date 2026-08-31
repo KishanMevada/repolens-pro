@@ -1,6 +1,5 @@
 name: Android CI
 
-# When Code Push or PR is there
 on:
   push:
     branches: [ "main" ]
@@ -9,7 +8,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest # GitHub નું વર્ચ્યુઅલ મશીન
+    # નોટ: એન્ડ્રોઇડ એમ્યુલેટર macOS સર્વર પર સૌથી ફાસ્ટ ચાલે છે,
+    # પણ અત્યારે આપણે ubuntu-latest જ રાખીશું.
+    runs-on: ubuntu-latest
 
     steps:
       # 1. તમારો કોડ ડાઉનલોડ કરો
@@ -28,15 +29,24 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 4. તમે લખેલા યુનિટ ટેસ્ટ રન કરો
+      # 4. તમે લખેલા યુનિટ ટેસ્ટ રન કરો (src/test/ વાળા)
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 
-      # 5. ટેસ્ટ પાસ થાય એટલે એપનું APK બનાવો
+      # ✅ નવું: 5. UI (Instrumented) ટેસ્ટ રન કરવા માટે એમ્યુલેટર ચાલુ કરો
+      - name: Run UI Tests (Android Emulator)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29 # બહુ નવો નહિ, એટલે સર્વર પર ફાસ્ટ ચાલુ થાય
+          target: default
+          arch: x86_64
+          script: ./gradlew connectedAndroidTest # UI ટેસ્ટ માટેનો અસલી કમાન્ડ
+
+      # 6. ટેસ્ટ પાસ થાય એટલે એપનું APK બનાવો
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
-      # 6. બનાવેલું APK ડાઉનલોડ કરવા માટે સેવ (Upload) કરો
+      # 7. બનાવેલું APK ડાઉનલોડ કરવા માટે સેવ (Upload) કરો
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
