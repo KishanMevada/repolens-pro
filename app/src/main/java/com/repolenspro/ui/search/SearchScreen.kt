@@ -50,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.repolenspro.domain.model.Repository
+import com.repolenspro.ui.components.ErrorStateItem
 import com.repolenspro.ui.theme.ThemeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,6 +63,7 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val query by viewModel.searchQuery.collectAsState()
+    val submittedQuery by viewModel.submittedQuery.collectAsState()
     val repositories = viewModel.pagedRepositories.collectAsLazyPagingItems()
 
     // લિસ્ટનું સ્ક્રોલ કંટ્રોલ કરવા માટે
@@ -125,45 +127,85 @@ fun SearchScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // ૧. લિસ્ટનો ડેટા બતાવવા માટે
-                items(
-                    count = repositories.itemCount,
-                    key = { index ->
-                        repositories.peek(index)?.id ?: index
-                    }
-                ) { index ->
-                    val repo = repositories[index]
-                    if (repo != null) {
-                        RepositoryItem(
-                            repository = repo,
-                            onClick = {
-                                val encodedName = java.net.URLEncoder.encode(repo.fullName, "UTF-8")
-                                onNavigateToDetail(encodedName)
-                            }
-                        )
-                    }
-                }
 
-                // ૨. એરર મેસેજ (API લિમિટ માટે) બતાવવા માટે
-                val mediatorState = repositories.loadState.mediator?.refresh
-                if (mediatorState is LoadState.Error) {
-                    item {
-                        Text(
-                            text = "API Limit Reached! 1 મિનિટ રાહ જુઓ અને પછી ફરી સર્ચ કરો.",
-                            color = Color.Red,
-                            modifier = Modifier.padding(vertical = 16.dp)
-                        )
-                    }
-                }
-
-                // ૩. લોડિંગ ઇન્ડિકેટર (Spinner) બતાવવા માટે
-                if (repositories.loadState.append is LoadState.Loading || repositories.loadState.refresh is LoadState.Loading) {
+                // ✅ ફિક્સ: ટાઇપ કરેલી નહિ, પણ 'સબમિટ' કરેલી ક્વેરી ખાલી હોય તો જ મેસેજ બતાવો
+                if (submittedQuery.isEmpty()) {
                     item {
                         Box(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillParentMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                            Text(
+                                text = "Enter a keyword to search repositories \uD83D\uDD0D",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
+                    }
+                } else {
+                    // ✅ ૧. જો પહેલી જ વાર ડેટા લાવવામાં ભૂલ પડે (Initial Load Error)
+                    if (repositories.loadState.refresh is LoadState.Error) {
+                        val error = (repositories.loadState.refresh as LoadState.Error).error
+                        item {
+                            ErrorStateItem(
+                                modifier = Modifier.fillParentMaxSize(),
+                                message = error.localizedMessage ?: "No Internet Connection.",
+                                onRetry = { repositories.retry() } // Paging 3 નું જાદુઈ retry ફંક્શન
+                            )
+                        }
+                    }
+
+                    // ૧. લિસ્ટનો ડેટા બતાવવા માટે
+                    items(
+                        count = repositories.itemCount,
+                        key = { index ->
+                            repositories.peek(index)?.id ?: index
+                        }
+                    ) { index ->
+                        val repo = repositories[index]
+                        if (repo != null) {
+                            RepositoryItem(
+                                repository = repo,
+                                onClick = {
+                                    val encodedName = java.net.URLEncoder.encode(repo.fullName, "UTF-8")
+                                    onNavigateToDetail(encodedName)
+                                }
+                            )
+                        }
+                    }
+
+                    // ✅ ૩. જો નીચે સ્ક્રોલ કરતી વખતે નવો ડેટા લાવવામાં ભૂલ પડે (Pagination Error)
+                    if (repositories.loadState.append is LoadState.Error) {
+                        val error = (repositories.loadState.append as LoadState.Error).error
+                        item {
+                            ErrorStateItem(
+                                message = error.localizedMessage ?: "Could not load more.",
+                                onRetry = { repositories.retry() }
+                            )
+                        }
+                    }
+
+                    // ૨. એરર મેસેજ (API લિમિટ માટે) બતાવવા માટે
+                    val mediatorState = repositories.loadState.mediator?.refresh
+                    if (mediatorState is LoadState.Error) {
+                        item {
+                            Text(
+                                text = "API Limit Reached! 1 મિનિટ રાહ જુઓ અને પછી ફરી સર્ચ કરો.",
+                                color = Color.Red,
+                                modifier = Modifier.padding(vertical = 16.dp)
+                            )
+                        }
+                    }
+
+                    // ૩. લોડિંગ ઇન્ડિકેટર (Spinner) બતાવવા માટે
+                    if (repositories.loadState.append is LoadState.Loading || repositories.loadState.refresh is LoadState.Loading) {
+                        item {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                            }
                         }
                     }
                 }

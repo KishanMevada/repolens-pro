@@ -26,6 +26,7 @@ class SearchViewModel @Inject constructor(
 
     // 2. જ્યારે યુઝર સર્ચ બટન દબાવે ત્યારે ફાઈનલ શબ્દ અહીં આવશે
     private val _submittedQuery = MutableStateFlow("")
+    val submittedQuery = _submittedQuery.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val pagedRepositories: Flow<PagingData<Repository>> = _submittedQuery
