@@ -1,5 +1,6 @@
 package com.repolenspro.data.worker
 
+import android.app.NotificationManager
 import android.content.Context
 import androidx.work.ListenableWorker.Result
 import androidx.work.WorkerParameters
@@ -9,12 +10,14 @@ import com.repolenspro.data.model.GithubApi
 import com.repolenspro.data.model.RepositoryDto
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import io.mockk.spyk
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncWorkerTest {
@@ -32,7 +35,11 @@ class SyncWorkerTest {
         val context = mockk<Context>(relaxed = true)
         val workerParams = mockk<WorkerParameters>(relaxed = true)
 
-        worker = SyncWorker(context, workerParams, api, dao)
+        // 1. Spyk નો ઉપયોગ કરીને Worker નો ઓબ્જેક્ટ બનાવો (જેથી પ્રાઈવેટ ફંક્શન Mock થઈ શકે)
+        worker = spyk(SyncWorker(context, workerParams, api, dao), recordPrivateCalls = true)
+
+        // 2. private "showNotification" ફંક્શનને બાયપાસ (Mock) કરો
+        every { worker["showNotification"](any<Int>()) } returns Unit
     }
 
     @Test
