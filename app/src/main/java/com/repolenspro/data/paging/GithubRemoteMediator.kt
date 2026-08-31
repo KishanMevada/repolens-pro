@@ -45,6 +45,10 @@ class GithubRemoteMediator(
                 // API કૉલ (perPage = 25 સાથે)
                 val response = api.searchRepositories(query = query, page = currentPage, perPage = 25)
                 val entities = response.items.map { dto ->
+
+                    val existingRepo = dao.getRepositoryByName(dto.fullName)
+                    val savedBookmarkStatus = existingRepo?.isBookmarked ?: false
+
                     RepositoryEntity(
                         id = dto.id,
                         name = dto.name,
@@ -52,7 +56,9 @@ class GithubRemoteMediator(
                         description = dto.description ?: "No description provided",
                         stars = dto.stars,
                         forks = dto.forks,
-                        language = dto.language ?: "Unknown"
+                        language = dto.language ?: "Unknown",
+                        isBookmarked = savedBookmarkStatus,
+                        searchQuery = query
                     )
                 }
 

@@ -39,7 +39,7 @@ class GithubRepositoryImpl @Inject constructor(
                 dao = dao
             ),
             pagingSourceFactory = {
-                dao.searchRepositoriesPaged()
+                dao.searchRepositoriesPaged(query)
             }
         ).flow.map { pagingData ->
             pagingData.map { entity ->
@@ -58,6 +58,7 @@ private fun RepositoryEntity.toDomainModel(): Repository {
         description = description,
         stars = stars,
         forks = forks,
-        language = language
+        language = language,
+        isBookmarked = isBookmarked
     )
 }

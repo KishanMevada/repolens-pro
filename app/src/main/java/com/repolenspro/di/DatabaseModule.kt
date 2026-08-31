@@ -18,10 +18,8 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext application: Context): AppDatabase {
         return Room.databaseBuilder(
-            application,
-            AppDatabase::class.java,
-            "repolens_db"
-        ).build()
+            application, AppDatabase::class.java, "repolens_db"
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides

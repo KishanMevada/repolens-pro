@@ -23,7 +23,12 @@ fun AppNavGraph(themeViewModel: ThemeViewModel) {
                         val encodedName = java.net.URLEncoder.encode(repoName, "UTF-8")
                         navController.navigate("detail/$encodedName")
                     }
+                },
+                // ✅ નવું: ફેવરિટ્સ પેજ પર જવા માટે
+                onNavigateToFavourites = {
+                    navController.navigate("favourites")
                 }
+
             )
         }
 
@@ -40,6 +45,19 @@ fun AppNavGraph(themeViewModel: ThemeViewModel) {
                 onBackClick = {
                     navController.popBackStack()
                 }
+            )
+        }
+
+        // ✅ નવો કમ્પોઝેબલ રૂટ ઉમેરો
+        composable("favourites") {
+            com.repolenspro.ui.favourites.FavouritesScreen(
+                onNavigateToDetail = { repoName ->
+                    if (repoName.isNotBlank()) {
+                        val encodedName = java.net.URLEncoder.encode(repoName, "UTF-8")
+                        navController.navigate("detail/$encodedName")
+                    }
+                },
+                onBackClick = { navController.popBackStack() }
             )
         }
     }

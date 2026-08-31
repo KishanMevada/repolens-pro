@@ -7,5 +7,6 @@ data class Repository(
     val description: String,
     val stars: Int,
     val forks: Int,
-    val language: String
+    val language: String,
+    val isBookmarked: Boolean = false
 )
