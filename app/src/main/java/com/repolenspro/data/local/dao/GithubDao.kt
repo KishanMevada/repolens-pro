@@ -31,4 +31,12 @@ abstract class GithubDao {
     @Query("SELECT * FROM repositories WHERE isBookmarked = 1")
     abstract fun getBookmarkedRepositories(): kotlinx.coroutines.flow.Flow<List<RepositoryEntity>>
 
+    // માત્ર ફેવરિટ્સનું એક જ લિસ્ટ લાવવા (ફ્લો વગર, બેકગ્રાઉન્ડ વર્કર માટે)
+    @Query("SELECT * FROM repositories WHERE isBookmarked = 1")
+    abstract suspend fun getBookmarkedRepositoriesSync(): List<RepositoryEntity>
+
+    // નવા સ્ટાર્સ અને ફોર્ક્સ અપડેટ કરવા માટે
+    @Query("UPDATE repositories SET stars = :stars, forks = :forks WHERE id = :id")
+    abstract suspend fun updateRepoStats(id: Int, stars: Int, forks: Int)
+
 }
