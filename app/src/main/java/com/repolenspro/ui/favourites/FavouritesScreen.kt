@@ -1,5 +1,9 @@
 package com.repolenspro.ui.favourites
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -46,7 +50,9 @@ fun FavouritesScreen(
         if (favourites.isEmpty()) {
             // જો કશું જ સેવ ના કર્યું હોય તો આ મેસેજ દેખાશે
             Box(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -58,7 +64,9 @@ fun FavouritesScreen(
             }
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -70,18 +78,31 @@ fun FavouritesScreen(
 
                     // Entity ને Domain Model (Repository) માં કન્વર્ટ કર્યું
                     val repo = Repository(
-                        id = entity.id, name = entity.name, fullName = entity.fullName,
-                        description = entity.description, stars = entity.stars,
-                        forks = entity.forks, language = entity.language, isBookmarked = entity.isBookmarked
+                        id = entity.id,
+                        name = entity.name,
+                        fullName = entity.fullName,
+                        description = entity.description,
+                        stars = entity.stars,
+                        forks = entity.forks,
+                        language = entity.language,
+                        isBookmarked = entity.isBookmarked
                     )
 
-                    RepositoryItem(
-                        repository = repo,
-                        onClick = {
-                            val encodedName = java.net.URLEncoder.encode(repo.fullName, "UTF-8")
-                            onNavigateToDetail(encodedName)
-                        }
-                    )
+                    AnimatedVisibility(
+                        visible = true, // જ્યારે પણ આઇટમ સ્ક્રીન પર આવે
+                        enter = fadeIn(animationSpec = tween(durationMillis = 400)) +
+                                slideInVertically(
+                                    animationSpec = tween(durationMillis = 400),
+                                    initialOffsetY = { it / 2 })
+                    ) {
+                        RepositoryItem(
+                            repository = repo,
+                            onClick = {
+                                val encodedName = java.net.URLEncoder.encode(repo.fullName, "UTF-8")
+                                onNavigateToDetail(encodedName)
+                            }
+                        )
+                    }
                 }
             }
         }

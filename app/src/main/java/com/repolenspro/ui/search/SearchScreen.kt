@@ -1,5 +1,9 @@
 package com.repolenspro.ui.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -164,13 +168,22 @@ fun SearchScreen(
                     ) { index ->
                         val repo = repositories[index]
                         if (repo != null) {
-                            RepositoryItem(
-                                repository = repo,
-                                onClick = {
-                                    val encodedName = java.net.URLEncoder.encode(repo.fullName, "UTF-8")
-                                    onNavigateToDetail(encodedName)
-                                }
-                            )
+                            AnimatedVisibility(
+                                visible = true, // જ્યારે પણ આઇટમ સ્ક્રીન પર આવે
+                                enter = fadeIn(animationSpec = tween(durationMillis = 400)) +
+                                        slideInVertically(
+                                            animationSpec = tween(durationMillis = 400),
+                                            initialOffsetY = { it / 2 })
+                            ) {
+                                RepositoryItem(
+                                    repository = repo,
+                                    onClick = {
+                                        val encodedName =
+                                            java.net.URLEncoder.encode(repo.fullName, "UTF-8")
+                                        onNavigateToDetail(encodedName)
+                                    }
+                                )
+                            }
                         }
                     }
 
@@ -279,9 +292,21 @@ fun RepositoryItem(repository: Repository, onClick: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                IconText(icon = Icons.Default.Star, text = repository.stars.toString(), tint = Color(0xFFFFC107))
-                IconText(icon = Icons.Default.CallSplit, text = repository.forks.toString(), tint = MaterialTheme.colorScheme.secondary)
-                IconText(icon = Icons.Default.Code, text = repository.language, tint = MaterialTheme.colorScheme.tertiary)
+                IconText(
+                    icon = Icons.Default.Star,
+                    text = repository.stars.toString(),
+                    tint = Color(0xFFFFC107)
+                )
+                IconText(
+                    icon = Icons.Default.CallSplit,
+                    text = repository.forks.toString(),
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                IconText(
+                    icon = Icons.Default.Code,
+                    text = repository.language,
+                    tint = MaterialTheme.colorScheme.tertiary
+                )
             }
         }
     }
@@ -290,7 +315,12 @@ fun RepositoryItem(repository: Repository, onClick: () -> Unit) {
 @Composable
 fun IconText(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String, tint: Color) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(imageVector = icon, contentDescription = null, tint = tint, modifier = Modifier.size(16.dp))
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = tint,
+            modifier = Modifier.size(16.dp)
+        )
         Spacer(modifier = Modifier.width(4.dp))
         Text(text = text, style = MaterialTheme.typography.labelMedium)
     }

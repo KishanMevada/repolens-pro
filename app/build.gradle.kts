@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -95,5 +98,12 @@ dependencies {
 
     // DataStore Preferences
     implementation(libs.androidx.datastore.preferences)
+
+    // Firebase BoM (Bill of Materials)
+    implementation(platform(libs.firebase.bom))
+
+    // Analytics અને Crashlytics
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
 }
