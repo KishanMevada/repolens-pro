@@ -1,6 +1,9 @@
 package com.repolenspro
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +22,7 @@ import androidx.work.WorkManager
 import com.repolenspro.ui.navigation.AppNavGraph
 import com.repolenspro.ui.theme.RepoLensProTheme
 import com.repolenspro.ui.theme.ThemeViewModel
+import com.repolenspro.util.AppPermissionHandler
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -46,6 +50,18 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                AppPermissionHandler(
+                    permissions = listOf(Manifest.permission.POST_NOTIFICATIONS),
+                    onAllGranted = {
+                        Log.d("Permission", "Notification Permission Granted! \uD83C\uDF89")
+                    },
+                    onDenied = { deniedList ->
+                        Log.e("Permission", "User denied: $deniedList")
+                    }
+                )
+            }
 
             // ThemeViewModel માંથી થીમ નો ડેટા લાવો
             val themeViewModel: ThemeViewModel = hiltViewModel()

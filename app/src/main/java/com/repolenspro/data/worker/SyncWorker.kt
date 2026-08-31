@@ -1,10 +1,15 @@
 package com.repolenspro.data.worker
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.repolenspro.R
 import com.repolenspro.data.local.dao.GithubDao
 import com.repolenspro.data.model.GithubApi
 import dagger.assisted.Assisted
@@ -54,12 +59,45 @@ class SyncWorker @AssistedInject constructor(
                 }
             }
 
+            // ✅ ⚠️ લૂપ પૂરું થાય એટલે છેલ્લે આ ફંક્શનને કૉલ કરો
+            showNotification(bookmarkedRepos.size)
 
             Result.success()
         } catch (e: Exception) {
             Log.e("SyncWorker", "SyncWorker failed", e)
             Result.retry() // જો ઇન્ટરનેટ અચાનક બંધ થાય તો WorkManager થોડીવાર પછી ફરી ટ્રાય કરશે
         }
+
+    }
+
+    private fun showNotification(updatedCount: Int) {
+
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channelId = "sync_channel"
+
+        // Android 8.0 (Oreo) થી Channel બનાવવું ફરજિયાત છે
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Background Sync",
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = "Shows notifications when bookmarks are updated"
+            }
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        // નોટિફિકેશનની ડિઝાઇન
+        val notification = NotificationCompat.Builder(applicationContext, channelId)
+            .setContentTitle("Bookmarks Updated! \uD83C\uDF1F")
+            .setContentText("Successfully synced $updatedCount favorite repositories.")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .build()
+
+        // 1 નંબરના ID સાથે નોટિફિકેશન ફાયર કરો
+        notificationManager.notify(1, notification)
 
     }
 
