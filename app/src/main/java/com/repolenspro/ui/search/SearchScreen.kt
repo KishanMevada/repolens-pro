@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
@@ -57,6 +58,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     themeViewModel: ThemeViewModel,
     onNavigateToDetail: (String) -> Unit,
+    onNavigateToFavourites: () -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val query by viewModel.searchQuery.collectAsState()
@@ -83,6 +85,14 @@ fun SearchScreen(
                 ),
                 actions = {
                     val isDark by themeViewModel.isDarkMode.collectAsState()
+                    // ✅ નવું ફેવરિટ્સ બટન ઉમેર્યું (થીમ બટનની બાજુમાં)
+                    IconButton(onClick = onNavigateToFavourites) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favourites",
+                            tint = Color.Red
+                        )
+                    }
                     IconButton(onClick = { themeViewModel.toggleTheme(!isDark) }) {
                         Icon(
                             // લાઈટ/ડાર્ક મોડ મુજબ આઇકન બદલાશે

@@ -26,7 +26,9 @@ class GithubPagingSource(
                     description = dto.description ?: "No description provided",
                     stars = dto.stars,
                     forks = dto.forks,
-                    language = dto.language ?: "Unknown"
+                    language = dto.language ?: "Unknown",
+                    false,
+                    ""
                 )
             }
             dao.insertRepositories(entities)
@@ -39,7 +41,8 @@ class GithubPagingSource(
                     description = it.description,
                     stars = it.stars,
                     forks = it.forks,
-                    language = it.language
+                    language = it.language,
+                    false
                 )
             }
 

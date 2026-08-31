@@ -30,9 +30,17 @@ class DetailViewModel @Inject constructor(
                     description = entity.description,
                     stars = entity.stars,
                     forks = entity.forks,
-                    language = entity.language
+                    language = entity.language,
+                    isBookmarked = entity.isBookmarked
                 )
             }
+        }
+    }
+
+    fun toggleBookmark(repoId: Int, isCurrentlyBookmarked: Boolean, repoName: String) {
+        viewModelScope.launch {
+            dao.updateBookmarkStatus(repoId, !isCurrentlyBookmarked)
+            fetchRepositoryDetails(repoName)
         }
     }
 }
