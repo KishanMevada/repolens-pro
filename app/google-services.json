@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "275324095669",
+    "project_id": "repolenspro",
+    "storage_bucket": "repolenspro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275324095669:android:dd8bbfef1a534b5d4982fc",
+        "android_client_info": {
+          "package_name": "com.repolenspro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACwnaLcTDXc1v7pIzVULIG8s0OYPMy9H4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
