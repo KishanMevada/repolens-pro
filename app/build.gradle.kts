@@ -33,6 +33,10 @@ android {
     buildFeatures {
         compose = true
     }
+    // ✅ ⚠️ નવું ઉમેર્યું: Unit tests માં Android ના લોગ્સ ક્રેશ ના થાય તે માટે
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -52,6 +56,13 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.material.icons.extended)
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
+
+    // Hilt Support for WorkManager
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
 
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")

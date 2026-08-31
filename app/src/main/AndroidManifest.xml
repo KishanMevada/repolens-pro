@@ -26,6 +26,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- ✅ ⚠️ નવું ઉમેર્યું: Hilt Worker ને કામ કરવા દેવા માટે ડિફોલ્ટ વર્કરને કાઢી નાખ્યું -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
     </application>
 
 </manifest>
