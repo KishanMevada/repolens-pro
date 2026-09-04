@@ -1,7 +1,7 @@
-package com.repolenspro.ui.favourites
+package com.repolenspro.feature.favourites
 
-import com.repolenspro.core.database.RepositoryEntity
 import com.repolenspro.core.database.GithubDao
+import com.repolenspro.core.database.RepositoryEntity
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -15,9 +15,10 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import kotlin.collections.get
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavouritesViewModelTest {
@@ -60,8 +61,8 @@ class FavouritesViewModelTest {
 
         // Assert
         val state = viewModel.favourites.value
-        assertEquals(1, state.size)
-        assertEquals("JetBrains/kotlin", state[0].fullName)
+        Assert.assertEquals(1, state.size)
+        Assert.assertEquals("JetBrains/kotlin", state[0].fullName)
     }
 
 }

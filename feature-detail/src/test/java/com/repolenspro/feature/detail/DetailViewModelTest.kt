@@ -1,12 +1,11 @@
-package com.repolenspro.ui.detail
+package com.repolenspro.feature.detail
 
-import com.repolenspro.core.database.RepositoryEntity
 import com.repolenspro.core.database.GithubDao
-import com.repolenspro.feature.detail.DetailViewModel
+import com.repolenspro.core.database.RepositoryEntity
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -54,8 +53,8 @@ class DetailViewModelTest {
 
         // Assert (પરિણામ ચેક કરો)
         val state = viewModel.repository.value
-        assertEquals("JetBrains/kotlin", state?.fullName)
-        assertEquals(true, state?.isBookmarked)
+        TestCase.assertEquals("JetBrains/kotlin", state?.fullName)
+        TestCase.assertEquals(true, state?.isBookmarked)
     }
 
     @Test

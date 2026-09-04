@@ -1,10 +1,11 @@
-package com.repolenspro.ui.search
+package com.repolenspro.feature.search
 
-import com.repolenspro.core.domain.Repository
+import androidx.paging.PagingData
 import com.repolenspro.core.domain.GithubRepository
+import com.repolenspro.core.domain.Repository
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -18,8 +19,6 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import androidx.paging.PagingData
-import com.repolenspro.feature.search.SearchViewModel
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchViewModelTest {
@@ -46,7 +45,7 @@ class SearchViewModelTest {
         viewModel.onQueryChanged("Kotlin")
 
         // Assert
-        assertEquals("Kotlin", viewModel.searchQuery.value)
+        TestCase.assertEquals("Kotlin", viewModel.searchQuery.value)
     }
 
     @Test
