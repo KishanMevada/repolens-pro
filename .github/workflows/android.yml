@@ -10,7 +10,7 @@ jobs:
   build:
     # નોટ: એન્ડ્રોઇડ એમ્યુલેટર macOS સર્વર પર સૌથી ફાસ્ટ ચાલે છે,
     # પણ અત્યારે આપણે ubuntu-latest જ રાખીશું.
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       # 1. તમારો કોડ ડાઉનલોડ કરો
@@ -47,8 +47,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          target: google_apis # 'default' ની જગ્યાએ આ વાપરો
-          arch: arm64-v8a       # 'x86_64' ની જગ્યાએ આ વાપરો
+          target: default # 'default' ની જગ્યાએ આ વાપરો
+          arch: x86_64       # 'x86_64' ની જગ્યાએ આ વાપરો
           script: ./gradlew connectedAndroidTest
 
       # 6. ટેસ્ટ પાસ થાય એટલે એપનું APK બનાવો
