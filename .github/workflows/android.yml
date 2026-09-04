@@ -10,7 +10,7 @@ jobs:
   build:
     # નોટ: એન્ડ્રોઇડ એમ્યુલેટર macOS સર્વર પર સૌથી ફાસ્ટ ચાલે છે,
     # પણ અત્યારે આપણે ubuntu-latest જ રાખીશું.
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       # 1. તમારો કોડ ડાઉનલોડ કરો
