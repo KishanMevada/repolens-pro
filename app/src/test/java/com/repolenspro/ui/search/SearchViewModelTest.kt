@@ -1,7 +1,7 @@
 package com.repolenspro.ui.search
 
-import com.repolenspro.domain.model.Repository
-import com.repolenspro.domain.repository.GithubRepository
+import com.repolenspro.core.domain.Repository
+import com.repolenspro.core.domain.GithubRepository
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -19,6 +19,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import androidx.paging.PagingData
+import com.repolenspro.feature.search.SearchViewModel
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchViewModelTest {

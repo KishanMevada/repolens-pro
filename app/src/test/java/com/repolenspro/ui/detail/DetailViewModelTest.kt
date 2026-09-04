@@ -1,8 +1,8 @@
 package com.repolenspro.ui.detail
 
-import androidx.compose.material3.ExperimentalMaterial3Api
-import com.repolenspro.data.local.RepositoryEntity
-import com.repolenspro.data.local.dao.GithubDao
+import com.repolenspro.core.database.RepositoryEntity
+import com.repolenspro.core.database.GithubDao
+import com.repolenspro.feature.detail.DetailViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

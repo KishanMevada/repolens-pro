@@ -2,10 +2,10 @@ package com.repolenspro.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.repolenspro.data.local.RepositoryEntity
-import com.repolenspro.data.local.dao.GithubDao
-import com.repolenspro.data.model.GithubApi
-import com.repolenspro.domain.model.Repository
+import com.repolenspro.core.database.RepositoryEntity
+import com.repolenspro.core.database.GithubDao
+import com.repolenspro.core.network.GithubApi
+import com.repolenspro.core.domain.Repository
 
 class GithubPagingSource(
     private val api: GithubApi,

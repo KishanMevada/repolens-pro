@@ -20,7 +20,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.repolenspro.ui.navigation.AppNavGraph
-import com.repolenspro.ui.theme.RepoLensProTheme
+import com.repolenspro.core.ui.theme.RepoLensProTheme
 import com.repolenspro.ui.theme.ThemeViewModel
 import com.repolenspro.util.AppPermissionHandler
 import dagger.hilt.android.AndroidEntryPoint

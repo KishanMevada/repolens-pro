@@ -1,7 +1,7 @@
 package com.repolenspro.ui.favourites
 
-import com.repolenspro.data.local.RepositoryEntity
-import com.repolenspro.data.local.dao.GithubDao
+import com.repolenspro.core.database.RepositoryEntity
+import com.repolenspro.core.database.GithubDao
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

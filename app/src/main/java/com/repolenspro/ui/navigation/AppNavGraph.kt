@@ -1,30 +1,40 @@
 package com.repolenspro.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.repolenspro.ui.detail.RepositoryDetailScreen
-import com.repolenspro.ui.search.SearchScreen
+import com.repolenspro.feature.detail.RepositoryDetailScreen
+import com.repolenspro.feature.favourites.FavouritesScreen
+import com.repolenspro.feature.search.SearchScreen
 import com.repolenspro.ui.theme.ThemeViewModel
+import java.net.URLEncoder
 
 @Composable
-fun AppNavGraph(themeViewModel: ThemeViewModel) {
-    val navController = rememberNavController()
-
+fun AppNavGraph(
+    navController: NavHostController = rememberNavController(),
+    themeViewModel: ThemeViewModel = hiltViewModel()
+) {
     NavHost(navController = navController, startDestination = "search") {
         composable("search") {
+
+            val isDarkMode by themeViewModel.isDarkMode.collectAsState(initial = false)
+
             SearchScreen(
-                themeViewModel = themeViewModel,
+                isDarkMode = isDarkMode,
+                onThemeToggle = { themeViewModel.toggleTheme(!isDarkMode) },
                 onNavigateToDetail = { repoName ->
                     if (repoName.isNotBlank()) {
-                        val encodedName = java.net.URLEncoder.encode(repoName, "UTF-8")
+                        val encodedName = URLEncoder.encode(repoName, "UTF-8")
                         navController.navigate("detail/$encodedName")
                     }
                 },
-                // ✅ નવું: ફેવરિટ્સ પેજ પર જવા માટે
                 onNavigateToFavourites = {
                     navController.navigate("favourites")
                 }
@@ -50,10 +60,10 @@ fun AppNavGraph(themeViewModel: ThemeViewModel) {
 
         // ✅ નવો કમ્પોઝેબલ રૂટ ઉમેરો
         composable("favourites") {
-            com.repolenspro.ui.favourites.FavouritesScreen(
+            FavouritesScreen(
                 onNavigateToDetail = { repoName ->
                     if (repoName.isNotBlank()) {
-                        val encodedName = java.net.URLEncoder.encode(repoName, "UTF-8")
+                        val encodedName = URLEncoder.encode(repoName, "UTF-8")
                         navController.navigate("detail/$encodedName")
                     }
                 },
