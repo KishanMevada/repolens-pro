@@ -1,6 +1,10 @@
-package com.repolenspro.ui.search
+package com.repolenspro.feature.search
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -17,13 +21,13 @@ class SearchScreenLoadingTest {
     fun when_stateIsLoading_circularProgressIndicator_is_displayed() {
 
         composeTestRule.setContent {
-            androidx.compose.foundation.layout.Box(
-                modifier = androidx.compose.ui.Modifier.fillMaxSize(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                androidx.compose.material3.CircularProgressIndicator(
+                CircularProgressIndicator(
                     // ટેસ્ટિંગમાં શોધવા માટે ટેગ આપવો જરૂરી છે
-                    modifier = androidx.compose.ui.Modifier.testTag("loading_spinner")
+                    modifier = Modifier.testTag("loading_spinner")
                 )
             }
         }
