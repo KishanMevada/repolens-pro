@@ -5,12 +5,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.repolenspro.data.local.RepositoryEntity
-import com.repolenspro.data.local.dao.GithubDao
-import com.repolenspro.data.model.GithubApi
+import com.repolenspro.core.database.RepositoryEntity
+import com.repolenspro.core.database.GithubDao
+import com.repolenspro.core.domain.GithubRepository
+import com.repolenspro.core.domain.Repository
+import com.repolenspro.core.network.GithubApi
 import com.repolenspro.data.paging.GithubRemoteMediator
-import com.repolenspro.domain.model.Repository
-import com.repolenspro.domain.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

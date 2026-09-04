@@ -3,9 +3,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.repolenspro.data.local.RepositoryEntity
-import com.repolenspro.data.local.dao.GithubDao
-import com.repolenspro.data.model.GithubApi
+import com.repolenspro.core.database.RepositoryEntity
+import com.repolenspro.core.database.GithubDao
+import com.repolenspro.core.network.GithubApi
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import retrofit2.HttpException

@@ -1,13 +1,12 @@
 package com.repolenspro.data.worker
 
-import android.app.NotificationManager
 import android.content.Context
 import androidx.work.ListenableWorker.Result
 import androidx.work.WorkerParameters
-import com.repolenspro.data.local.RepositoryEntity
-import com.repolenspro.data.local.dao.GithubDao
-import com.repolenspro.data.model.GithubApi
-import com.repolenspro.data.model.RepositoryDto
+import com.repolenspro.core.database.RepositoryEntity
+import com.repolenspro.core.database.GithubDao
+import com.repolenspro.core.network.GithubApi
+import com.repolenspro.core.network.RepositoryDto
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

@@ -1,7 +1,7 @@
 package com.repolenspro.di
 
 import com.repolenspro.data.repository.GithubRepositoryImpl
-import com.repolenspro.domain.repository.GithubRepository
+import com.repolenspro.core.domain.GithubRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

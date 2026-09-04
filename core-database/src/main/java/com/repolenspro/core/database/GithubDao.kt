@@ -1,0 +1,42 @@
+package com.repolenspro.core.database
+
+import androidx.paging.PagingSource
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+@JvmSuppressWildcards
+abstract class GithubDao {
+
+    @Query("DELETE FROM repositories WHERE isBookmarked = 0")
+    abstract suspend fun clearAllRepositories()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertRepositories(repositories: List<RepositoryEntity>)
+
+    @Query("SELECT * FROM repositories WHERE searchQuery = :query")
+    abstract fun searchRepositoriesPaged(query: String): PagingSource<Int, RepositoryEntity>
+
+    @Query("SELECT * FROM repositories WHERE fullName = :repoName")
+    abstract suspend fun getRepositoryByName(repoName: String): RepositoryEntity?
+
+    // ફેવરિટનું સ્ટેટસ અપડેટ કરવા માટે
+    @Query("UPDATE repositories SET isBookmarked = :isBookmarked WHERE id = :repoId")
+    abstract suspend fun updateBookmarkStatus(repoId: Int, isBookmarked: Boolean)
+
+    // માત્ર ફેવરિટ્સનું લિસ્ટ લાવવા માટે (Favorites Screen માટે)
+    @Query("SELECT * FROM repositories WHERE isBookmarked = 1")
+    abstract fun getBookmarkedRepositories(): Flow<List<RepositoryEntity>>
+
+    // માત્ર ફેવરિટ્સનું એક જ લિસ્ટ લાવવા (ફ્લો વગર, બેકગ્રાઉન્ડ વર્કર માટે)
+    @Query("SELECT * FROM repositories WHERE isBookmarked = 1")
+    abstract suspend fun getBookmarkedRepositoriesSync(): List<RepositoryEntity>
+
+    // નવા સ્ટાર્સ અને ફોર્ક્સ અપડેટ કરવા માટે
+    @Query("UPDATE repositories SET stars = :stars, forks = :forks WHERE id = :id")
+    abstract suspend fun updateRepoStats(id: Int, stars: Int, forks: Int)
+
+}

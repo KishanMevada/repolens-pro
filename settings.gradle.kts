@@ -27,3 +27,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "RepoLensPro"
 include(":app")
+include(":core-network")
+include(":core-database")
+include(":core-domain")
+include(":feature-search")
+include(":core-ui")
+include(":feature-detail")
+include(":feature-favourites")

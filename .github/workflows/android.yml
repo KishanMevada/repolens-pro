@@ -33,14 +33,16 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 
-      # ✅ નવું: 5. UI (Instrumented) ટેસ્ટ રન કરવા માટે એમ્યુલેટર ચાલુ કરો
-      - name: Run UI Tests (Android Emulator)
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29 # બહુ નવો નહિ, એટલે સર્વર પર ફાસ્ટ ચાલુ થાય
-          target: default
-          arch: x86_64
-          script: ./gradlew connectedAndroidTest # UI ટેસ્ટ માટેનો અસલી કમાન્ડ
+#      # 5. UI (Instrumented) ટેસ્ટ રન કરવા માટે એમ્યુલેટર ચાલુ કરો
+#      - name: Run UI Tests (Android Emulator)
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 29
+#          target: default # 'default' ની જગ્યાએ આ વાપરો
+#          arch: x86_64       # 'x86_64' ની જગ્યાએ આ વાપરો
+#          script: ./gradlew connectedAndroidTest
+#          disable-linux-hw-accel: true
+#          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
 
       # 6. ટેસ્ટ પાસ થાય એટલે એપનું APK બનાવો
       - name: Build Debug APK

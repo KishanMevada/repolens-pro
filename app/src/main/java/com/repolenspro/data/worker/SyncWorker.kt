@@ -10,8 +10,8 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.repolenspro.R
-import com.repolenspro.data.local.dao.GithubDao
-import com.repolenspro.data.model.GithubApi
+import com.repolenspro.core.database.GithubDao
+import com.repolenspro.core.network.GithubApi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

@@ -43,6 +43,17 @@ android {
 }
 
 dependencies {
+
+    //Modules
+    implementation(project(":core-network"))
+    implementation(project(":core-database"))
+    implementation(project(":core-domain"))
+    implementation(project(":feature-search"))
+    implementation(project(":feature-detail"))
+    implementation(project(":feature-favourites"))
+    implementation(project(":core-ui"))
+
+    //APIs
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -53,9 +64,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.material.icons.extended)
@@ -65,7 +76,6 @@ dependencies {
 
     // Hilt Support for WorkManager
     implementation(libs.androidx.hilt.work)
-    ksp(libs.androidx.hilt.compiler)
 
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
